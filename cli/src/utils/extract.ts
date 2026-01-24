@@ -135,39 +135,48 @@ export async function copyFoldersGlobal(
     return !EXCLUDED_FILES.includes(fileName);
   };
 
+  /**
+   * Copy contents of a source directory into target directory
+   * This iterates over items in the source and copies each one
+   */
+  async function copyDirectoryContents(source: string, target: string): Promise<void> {
+    const entries = await readdir(source, { withFileTypes: true });
+    for (const entry of entries) {
+      const srcPath = join(source, entry.name);
+      const destPath = join(target, entry.name);
+
+      if (!filterFn(srcPath)) continue;
+
+      try {
+        await cp(srcPath, destPath, { recursive: true, filter: filterFn });
+      } catch {
+        // Shell fallback
+        if (process.platform === 'win32') {
+          if (entry.isDirectory()) {
+            await execAsync(`xcopy "${srcPath}" "${destPath}\\" /E /I /Y`);
+          } else {
+            await execAsync(`copy /Y "${srcPath}" "${destPath}"`);
+          }
+        } else {
+          await execAsync(`cp -r "${srcPath}" "${destPath}"`);
+        }
+      }
+    }
+  }
+
   // Copy the main skill/workflow file(s)
   const skillSourcePath = join(sourceDir, mapping.skillFolder);
   if (await exists(skillSourcePath)) {
-    try {
-      await cp(skillSourcePath, targetDir, { recursive: true, filter: filterFn });
-      copiedItems.push(mapping.skillFolder);
-    } catch (error) {
-      // Try shell fallback
-      if (process.platform === 'win32') {
-        await execAsync(`xcopy "${skillSourcePath}" "${targetDir}" /E /I /Y`);
-      } else {
-        await execAsync(`cp -r "${skillSourcePath}/." "${targetDir}"`);
-      }
-      copiedItems.push(mapping.skillFolder);
-    }
+    await copyDirectoryContents(skillSourcePath, targetDir);
+    copiedItems.push(mapping.skillFolder);
   }
 
   // Copy the shared folder contents (scripts, data) if it exists
   if (mapping.sharedFolder) {
     const sharedSourcePath = join(sourceDir, mapping.sharedFolder);
     if (await exists(sharedSourcePath)) {
-      try {
-        await cp(sharedSourcePath, targetDir, { recursive: true, filter: filterFn });
-        copiedItems.push(mapping.sharedFolder);
-      } catch {
-        // Try shell fallback
-        if (process.platform === 'win32') {
-          await execAsync(`xcopy "${sharedSourcePath}" "${targetDir}" /E /I /Y`);
-        } else {
-          await execAsync(`cp -r "${sharedSourcePath}/." "${targetDir}"`);
-        }
-        copiedItems.push(mapping.sharedFolder);
-      }
+      await copyDirectoryContents(sharedSourcePath, targetDir);
+      copiedItems.push(mapping.sharedFolder);
     }
   }
 
