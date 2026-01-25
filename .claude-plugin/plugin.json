@@ -1,0 +1,11 @@
+{
+  "name": "ui-ux-pro-max",
+  "version": "2.0.1",
+  "description": "Professional UI/UX design intelligence for AI coding assistants. Includes searchable databases of styles, colors, typography, charts, and UX guidelines for React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, and shadcn/ui.",
+  "author": {
+    "name": "nextlevelbuilder"
+  },
+  "license": "MIT",
+  "keywords": ["ui", "ux", "design", "styles", "typography", "color-palette", "accessibility", "charts", "components"],
+  "skills": ["./.claude/skills/ui-ux-pro-max"]
+}
