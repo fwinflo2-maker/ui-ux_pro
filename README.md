@@ -427,6 +427,58 @@ If not, use the Master rules exclusively.
 Now, generate the code...
 ```
 
+## Architecture & Contributing
+
+### For Users
+
+The codebase has been restructured to use a **template-based generation system**. All platform-specific files (`.cursor/`, `.windsurf/`, `.kiro/`, etc.) are now generated dynamically by the CLI.
+
+**Always use the CLI to install:**
+
+```bash
+npm install -g uipro-cli
+uipro init --ai <platform>
+```
+
+This ensures you get the latest templates and correct file structure for your AI assistant.
+
+### For Contributors
+
+If you want to contribute to this project:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+cd ui-ux-pro-max-skill
+
+# 2. Understand the structure
+src/ui-ux-pro-max/           # Source of truth (data, scripts, templates)
+cli/                         # CLI installer (generates files from templates)
+.claude/                     # Local dev/test for Claude Code skill
+
+# 3. Make changes in src/ui-ux-pro-max/
+# - data/*.csv              → Database files
+# - scripts/*.py            → Search engine & design system
+# - templates/              → Platform-specific templates
+
+# 4. Sync to CLI and test locally
+cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
+cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+
+# 5. Build and test CLI
+cd cli && bun run build
+node dist/index.js init --ai claude --offline  # Test in a temp folder
+
+# 6. Create PR (never push directly to main)
+git checkout -b feat/your-feature
+git commit -m "feat: description"
+git push -u origin feat/your-feature
+gh pr create
+```
+
+See [CLAUDE.md](CLAUDE.md) for detailed development guidelines.
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nextlevelbuilder/ui-ux-pro-max-skill&type=Date)](https://star-history.com/#nextlevelbuilder/ui-ux-pro-max-skill&Date)
