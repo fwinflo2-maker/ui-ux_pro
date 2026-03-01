@@ -64,7 +64,11 @@ export async function loadPlatformConfig(aiType: string): Promise<PlatformConfig
 
   const configPath = join(ASSETS_DIR, 'templates', 'platforms', `${platformName}.json`);
   const content = await readFile(configPath, 'utf-8');
-  return JSON.parse(content) as PlatformConfig;
+  try {
+    return JSON.parse(content) as PlatformConfig;
+  } catch (e) {
+    throw new Error(`Invalid JSON in platform config "${platformName}.json": ${(e as Error).message}`);
+  }
 }
 
 /**
