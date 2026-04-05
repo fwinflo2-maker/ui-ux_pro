@@ -69,6 +69,16 @@ CSV_CONFIG = {
         "file": "google-fonts.csv",
         "search_cols": ["Family", "Category", "Stroke", "Classifications", "Keywords", "Subsets", "Designers"],
         "output_cols": ["Family", "Category", "Stroke", "Classifications", "Styles", "Variable Axes", "Subsets", "Designers", "Popularity Rank", "Google Fonts URL"]
+    },
+    "dashboard-mobile": {
+        "file": "dashboard-mobile.csv",
+        "search_cols": ["Component", "Keywords", "Category", "Description"],
+        "output_cols": ["Component", "Category", "Description", "Layout Pattern", "Do", "Don't", "Tamagui", "Paper", "GlueStack", "UIKitten", "Chart Library", "Severity"]
+    },
+    "dashboard-layouts": {
+        "file": "dashboard-layouts-mobile.csv",
+        "search_cols": ["Layout Name", "Keywords", "Category", "Description", "Best For"],
+        "output_cols": ["Layout Name", "Category", "Description", "Structure", "Best For", "Scroll Behavior", "Tamagui Pattern", "Paper Pattern", "GlueStack Pattern", "UIKitten Pattern", "Navigation Type", "Example Apps"]
     }
 }
 
@@ -195,6 +205,8 @@ def detect_domain(query):
         "google-fonts": ["google font", "font family", "font weight", "font style", "variable font", "noto", "font for", "find font", "font subset", "font language", "monospace font", "serif font", "sans serif font", "display font", "handwriting font", "font", "typography", "serif", "sans"],
         "icons": ["icon", "icons", "lucide", "heroicons", "symbol", "glyph", "pictogram", "svg icon"],
         "react": ["react", "next.js", "nextjs", "suspense", "memo", "usecallback", "useeffect", "rerender", "bundle", "waterfall", "barrel", "dynamic import", "rsc", "server component"],
+        "dashboard-mobile": ["kpi", "metric card", "ticker", "widget", "gauge", "sparkline", "portfolio card", "data table mobile", "skeleton loading", "notification card", "fab", "status indicator", "empty state", "error widget", "bottom sheet", "swipeable card", "animated counter", "progress ring"],
+        "dashboard-layouts": ["dashboard layout", "card stack", "tab dashboard", "swipeable panel", "hero metric", "sticky header", "collapsible section", "widget grid", "drawer layout", "bottom sheet layout", "floating card", "2-column grid"],
         "web": ["aria", "focus", "outline", "semantic", "virtualize", "autocomplete", "form", "input type", "preconnect"]
     }
 
