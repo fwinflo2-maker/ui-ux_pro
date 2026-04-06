@@ -435,6 +435,8 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain <domain> [-n
 | React Native perf | `react` | `--domain react "rerender memo list"` |
 | App interface a11y | `web` | `--domain web "accessibilityLabel touch safe-areas"` |
 | AI prompt / CSS keywords | `prompt` | `--domain prompt "minimalism"` |
+| Dashboard components | `dashboard-mobile` | `--domain dashboard-mobile "kpi metric card"` |
+| Dashboard layouts | `dashboard-layouts` | `--domain dashboard-layouts "trading portfolio"` |
 
 ### Step 4: Stack Guidelines (React Native)
 
@@ -462,13 +464,15 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack react-native
 | `google-fonts` | Individual Google Fonts lookup | sans serif, monospace, japanese, variable font, popular |
 | `react` | React/Next.js performance | waterfall, bundle, suspense, memo, rerender, cache |
 | `web` | App interface guidelines (iOS/Android/React Native) | accessibilityLabel, touch targets, safe areas, Dynamic Type |
+| `dashboard-mobile` | Mobile dashboard component patterns | kpi card, metric strip, candlestick widget, skeleton, data table, ticker |
+| `dashboard-layouts` | Mobile dashboard layout archetypes | card stack, tab dashboard, hero metric, sticky header, drawer layout |
 | `prompt` | AI prompts, CSS keywords | (style name) |
 
 ### Available Stacks
 
 | Stack | Focus |
 |-------|-------|
-| `react-native` | Components, Navigation, Lists |
+| `react-native` | Components, Navigation, Lists, Dashboard (18 guidelines) |
 
 ---
 
@@ -544,6 +548,10 @@ python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system 
 | Navigation feels confusing | Quick Reference §9: `nav-hierarchy` + `bottom-nav-limit` + `back-behavior` |
 | Layout breaks on small screens | Quick Reference §5: `mobile-first` + `breakpoint-consistency` |
 | Performance / jank | Quick Reference §3: `virtualize-lists` + `main-thread-budget` + `debounce-throttle` |
+| Don't know which RN chart lib | `--domain chart` now shows `RN Library` column per chart type |
+| Need a dashboard component | `--domain dashboard-mobile "kpi card"` or `"data table"` or `"skeleton"` |
+| How to layout a mobile dashboard | `--domain dashboard-layouts "financial overview"` or `"admin panel"` |
+| Dashboard perf issues | `--stack react-native "websocket performance flashlist error boundary"` |
 
 ### Pre-Delivery Checklist
 
