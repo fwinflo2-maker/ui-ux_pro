@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 
 // Paths
 const BRAND_GUIDELINES = 'docs/brand-guidelines.md';
@@ -33,19 +33,19 @@ function extractColorsFromMarkdown(content) {
   const quickRefMatch = content.match(/Primary Color\s*\|\s*#([A-Fa-f0-9]{6})\s*\(([^)]+)\)/);
   if (quickRefMatch) {
     colors.primary.name = quickRefMatch[2].toLowerCase().replace(/\s+/g, '-');
-    colors.primary.base = `#${quickRefMatch[1]}`;
+    colors.primary.base = '#' + quickRefMatch[1];
   }
 
   const secondaryMatch = content.match(/Secondary Color\s*\|\s*#([A-Fa-f0-9]{6})\s*\(([^)]+)\)/);
   if (secondaryMatch) {
     colors.secondary.name = secondaryMatch[2].toLowerCase().replace(/\s+/g, '-');
-    colors.secondary.base = `#${secondaryMatch[1]}`;
+    colors.secondary.base = '#' + secondaryMatch[1];
   }
 
   const accentMatch = content.match(/Accent Color\s*\|\s*#([A-Fa-f0-9]{6})\s*\(([^)]+)\)/);
   if (accentMatch) {
     colors.accent.name = accentMatch[2].toLowerCase().replace(/\s+/g, '-');
-    colors.accent.base = `#${accentMatch[1]}`;
+    colors.accent.base = '#' + accentMatch[1];
   }
 
   // Extract all shades from Primary Colors table
@@ -54,7 +54,7 @@ function extractColorsFromMarkdown(content) {
     const hexMatches = primarySection[0].matchAll(/\*\*([^*]+)\*\*\s*\|\s*#([A-Fa-f0-9]{6})/g);
     for (const match of hexMatches) {
       const name = match[1].trim().toLowerCase();
-      const hex = `#${match[2]}`;
+      const hex = '#' + match[2];
       if (name.includes('dark')) colors.primary.dark = hex;
       else if (name.includes('light')) colors.primary.light = hex;
       else colors.primary.base = hex;
@@ -67,7 +67,7 @@ function extractColorsFromMarkdown(content) {
     const hexMatches = secondarySection[0].matchAll(/\*\*([^*]+)\*\*\s*\|\s*#([A-Fa-f0-9]{6})/g);
     for (const match of hexMatches) {
       const name = match[1].trim().toLowerCase();
-      const hex = `#${match[2]}`;
+      const hex = '#' + match[2];
       if (name.includes('dark')) colors.secondary.dark = hex;
       else if (name.includes('light')) colors.secondary.light = hex;
       else colors.secondary.base = hex;
@@ -80,7 +80,7 @@ function extractColorsFromMarkdown(content) {
     const hexMatches = accentSection[0].matchAll(/\*\*([^*]+)\*\*\s*\|\s*#([A-Fa-f0-9]{6})/g);
     for (const match of hexMatches) {
       const name = match[1].trim().toLowerCase();
-      const hex = `#${match[2]}`;
+      const hex = '#' + match[2];
       if (name.includes('dark')) colors.accent.dark = hex;
       else if (name.includes('light')) colors.accent.light = hex;
       else colors.accent.base = hex;
@@ -117,7 +117,19 @@ function adjustBrightness(hex, percent) {
   const r = Math.min(255, Math.max(0, (num >> 16) + Math.round(255 * percent)));
   const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + Math.round(255 * percent)));
   const b = Math.min(255, Math.max(0, (num & 0x0000FF) + Math.round(255 * percent)));
-  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0').toUpperCase()}`;
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0').toUpperCase();
+}
+
+/**
+ * Build a safe design token reference string.
+ * Validates colorName to contain only alphanumeric characters and hyphens,
+ * preventing injection via external markdown content.
+ */
+function tokenRef(colorName, shade) {
+  if (!/^[a-z0-9-]+$/.test(colorName)) {
+    throw new Error('Invalid color name: ' + colorName);
+  }
+  return '{primitive.color.' + colorName + '.' + shade + '}';
 }
 
 /**
@@ -125,7 +137,7 @@ function adjustBrightness(hex, percent) {
  */
 function updateDesignTokens(tokens, colors) {
   // Update brand name
-  const brandName = `ClaudeKit Marketing - ${colors.primary.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`;
+  const brandName = 'ClaudeKit Marketing - ' + colors.primary.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   tokens.brand = brandName;
 
   // Update primitive colors with new names
@@ -163,38 +175,42 @@ function updateDesignTokens(tokens, colors) {
     const a = colors.accent.name;
 
     // Primary variants
-    sem.primary = { "$value": `{primitive.color.${p}.500}`, "$type": "color" };
-    sem['primary-hover'] = { "$value": `{primitive.color.${p}.600}`, "$type": "color" };
-    sem['primary-active'] = { "$value": `{primitive.color.${p}.700}`, "$type": "color" };
-    sem['primary-light'] = { "$value": `{primitive.color.${p}.400}`, "$type": "color" };
-    sem['primary-lighter'] = { "$value": `{primitive.color.${p}.100}`, "$type": "color" };
-    sem['primary-dark'] = { "$value": `{primitive.color.${p}.600}`, "$type": "color" };
+    sem.primary = { "$value": tokenRef(p, '500'), "$type": "color" };
+    sem['primary-hover'] = { "$value": tokenRef(p, '600'), "$type": "color" };
+    sem['primary-active'] = { "$value": tokenRef(p, '700'), "$type": "color" };
+    sem['primary-light'] = { "$value": tokenRef(p, '400'), "$type": "color" };
+    sem['primary-lighter'] = { "$value": tokenRef(p, '100'), "$type": "color" };
+    sem['primary-dark'] = { "$value": tokenRef(p, '600'), "$type": "color" };
 
     // Secondary variants
-    sem.secondary = { "$value": `{primitive.color.${s}.500}`, "$type": "color" };
-    sem['secondary-hover'] = { "$value": `{primitive.color.${s}.600}`, "$type": "color" };
-    sem['secondary-light'] = { "$value": `{primitive.color.${s}.300}`, "$type": "color" };
-    sem['secondary-dark'] = { "$value": `{primitive.color.${s}.600}`, "$type": "color" };
+    sem.secondary = { "$value": tokenRef(s, '500'), "$type": "color" };
+    sem['secondary-hover'] = { "$value": tokenRef(s, '600'), "$type": "color" };
+    sem['secondary-light'] = { "$value": tokenRef(s, '300'), "$type": "color" };
+    sem['secondary-dark'] = { "$value": tokenRef(s, '600'), "$type": "color" };
 
     // Accent variants
-    sem.accent = { "$value": `{primitive.color.${a}.500}`, "$type": "color" };
-    sem['accent-hover'] = { "$value": `{primitive.color.${a}.600}`, "$type": "color" };
-    sem['accent-light'] = { "$value": `{primitive.color.${a}.300}`, "$type": "color" };
+    sem.accent = { "$value": tokenRef(a, '500'), "$type": "color" };
+    sem['accent-hover'] = { "$value": tokenRef(a, '600'), "$type": "color" };
+    sem['accent-light'] = { "$value": tokenRef(a, '300'), "$type": "color" };
 
     // Status colors (use accent for success, primary for error/info)
-    sem.success = { "$value": `{primitive.color.${a}.500}`, "$type": "color" };
-    sem['success-light'] = { "$value": `{primitive.color.${a}.300}`, "$type": "color" };
-    sem.error = { "$value": `{primitive.color.${p}.500}`, "$type": "color" };
-    sem['error-light'] = { "$value": `{primitive.color.${p}.300}`, "$type": "color" };
-    sem.info = { "$value": `{primitive.color.${s}.500}`, "$type": "color" };
-    sem['info-light'] = { "$value": `{primitive.color.${s}.300}`, "$type": "color" };
+    sem.success = { "$value": tokenRef(a, '500'), "$type": "color" };
+    sem['success-light'] = { "$value": tokenRef(a, '300'), "$type": "color" };
+    sem.error = { "$value": tokenRef(p, '500'), "$type": "color" };
+    sem['error-light'] = { "$value": tokenRef(p, '300'), "$type": "color" };
+    sem.info = { "$value": tokenRef(s, '500'), "$type": "color" };
+    sem['info-light'] = { "$value": tokenRef(s, '300'), "$type": "color" };
   }
 
   // Update component references (button uses primary color with opacity)
   if (tokens.component?.button?.secondary) {
     const primaryBase = colors.primary.base;
+    // Validate hex color format before use
+    if (!/^#[A-Fa-f0-9]{6}$/.test(primaryBase)) {
+      throw new Error('Invalid primary base color: ' + primaryBase);
+    }
     tokens.component.button.secondary['bg-hover'] = {
-      "$value": `${primaryBase}1A`,
+      "$value": primaryBase + '1A',
       "$type": "color"
     };
   }
@@ -213,7 +229,7 @@ function main() {
   // Read brand guidelines
   const guidelinesPath = path.resolve(process.cwd(), BRAND_GUIDELINES);
   if (!fs.existsSync(guidelinesPath)) {
-    console.error(`❌ Brand guidelines not found: ${guidelinesPath}`);
+    console.error('❌ Brand guidelines not found: ' + guidelinesPath);
     process.exit(1);
   }
   const guidelinesContent = fs.readFileSync(guidelinesPath, 'utf-8');
@@ -221,9 +237,9 @@ function main() {
   // Extract colors
   const colors = extractColorsFromMarkdown(guidelinesContent);
   console.log('📊 Extracted colors:');
-  console.log(`   Primary: ${colors.primary.name} (${colors.primary.base})`);
-  console.log(`   Secondary: ${colors.secondary.name} (${colors.secondary.base})`);
-  console.log(`   Accent: ${colors.accent.name} (${colors.accent.base})\n`);
+  console.log('   Primary: ' + colors.primary.name + ' (' + colors.primary.base + ')');
+  console.log('   Secondary: ' + colors.secondary.name + ' (' + colors.secondary.base + ')');
+  console.log('   Accent: ' + colors.accent.name + ' (' + colors.accent.base + ')\n');
 
   // Read existing tokens
   const tokensPath = path.resolve(process.cwd(), DESIGN_TOKENS_JSON);
@@ -244,17 +260,17 @@ function main() {
 
   // Write updated tokens
   fs.writeFileSync(tokensPath, JSON.stringify(tokens, null, 2));
-  console.log(`✅ Updated: ${DESIGN_TOKENS_JSON}`);
+  console.log('✅ Updated: ' + DESIGN_TOKENS_JSON);
 
   // Regenerate CSS
   const generateScript = path.resolve(process.cwd(), GENERATE_TOKENS_SCRIPT);
   if (fs.existsSync(generateScript)) {
     try {
-      execSync(`node ${generateScript} --config ${DESIGN_TOKENS_JSON} -o ${DESIGN_TOKENS_CSS}`, {
+      spawnSync('node', [generateScript, '--config', DESIGN_TOKENS_JSON, '-o', DESIGN_TOKENS_CSS], {
         cwd: process.cwd(),
         stdio: 'inherit'
       });
-      console.log(`✅ Regenerated: ${DESIGN_TOKENS_CSS}`);
+      console.log('✅ Regenerated: ' + DESIGN_TOKENS_CSS);
     } catch (e) {
       console.error('⚠️  Failed to regenerate CSS:', e.message);
     }
