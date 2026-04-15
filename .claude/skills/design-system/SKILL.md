@@ -1,6 +1,6 @@
 ---
-name: ckm:design-system
-description: Token architecture, component specifications, and slide generation. Three-layer tokens (primitive→semantic→component), CSS variables, spacing/typography scales, component specs, strategic slide creation. Use for design tokens, systematic design, brand-compliant presentations.
+name: andritz-design-system
+description: Andritz Precision industrial design system with dark/light theme variants. Three-layer token architecture (primitive→semantic→component), Material Design surface hierarchy, sharp 0px corners, tonal layering, industrial component specifications, and slide generation.
 argument-hint: "[component or token]"
 license: MIT
 metadata:
@@ -8,18 +8,21 @@ metadata:
   version: "1.0.0"
 ---
 
-# Design System
+# Andritz Design System
 
-Token architecture, component specifications, systematic design, slide generation.
+Industrial precision design system built on the "Monolithic Engine" creative north star — structural depth, monolithic presence, and engineered clarity. Every surface, token, and component reflects the Andritz brand identity: sharp edges, tonal layering, and unwavering mechanical precision.
 
 ## When to Use
 
+- Andritz-branded UI development
+- Industrial dashboard design
+- Dark/light theme implementation
+- Material Design surface hierarchy
+- Sharp-corner component systems
 - Design token creation
 - Component state definitions
 - CSS variable systems
 - Spacing/typography scales
-- Design-to-code handoff
-- Tailwind theme configuration
 - **Slide/presentation generation**
 
 ## Token Architecture
@@ -39,13 +42,31 @@ Component (component-specific)
 **Example:**
 ```css
 /* Primitive */
---color-blue-600: #2563EB;
+--andritz-blue-600: #0075be;
 
 /* Semantic */
---color-primary: var(--color-blue-600);
+--color-primary: var(--andritz-blue-600);
 
 /* Component */
---button-bg: var(--color-primary);
+--button-bg: linear-gradient(135deg, var(--color-primary-text), var(--color-primary));
+```
+
+### Andritz Key Colors
+
+**Light Theme:**
+```css
+--color-surface: #f8fafb;
+--color-primary: #0075be;
+--color-primary-dark: #005c97;
+--color-on-surface: #191c1d;
+```
+
+**Dark Theme:**
+```css
+--color-surface: #10141a;
+--color-primary: #9bcaff;
+--color-primary-dark: #0075be;
+--color-on-surface: #dfe2eb;
 ```
 
 ## Quick Start
@@ -64,6 +85,7 @@ node scripts/validate-tokens.cjs --dir src/
 
 | Topic | File |
 |-------|------|
+| Design Philosophy | `references/design-philosophy.md` |
 | Token Architecture | `references/token-architecture.md` |
 | Primitive Tokens | `references/primitive-tokens.md` |
 | Semantic Tokens | `references/semantic-tokens.md` |
@@ -76,10 +98,11 @@ node scripts/validate-tokens.cjs --dir src/
 
 | Property | Default | Hover | Active | Disabled |
 |----------|---------|-------|--------|----------|
-| Background | primary | primary-dark | primary-darker | muted |
-| Text | white | white | white | muted-fg |
-| Border | none | none | none | muted-border |
-| Shadow | sm | md | none | none |
+| Background | gradient(primary) | tonal-shift | scale-98% | surface-muted |
+| Text | on-primary | on-primary | on-primary | on-surface-variant |
+| Border | none | none | none | ghost-border |
+| Shadow | none | none | none | none |
+| Radius | 0px | 0px | 0px | 0px |
 
 ## Scripts
 
@@ -99,7 +122,7 @@ node scripts/validate-tokens.cjs --dir src/
 
 ## Integration
 
-**With brand:** Extract primitives from brand colors/typography
+**With brand:** Extract primitives from Andritz brand colors/typography
 **With ui-styling:** Component tokens → Tailwind config
 
 **Skill Dependencies:** brand, ui-styling
@@ -197,8 +220,8 @@ new Chart(document.getElementById('revenueChart'), {
         labels: ['Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [{
             data: [5, 12, 28, 45],
-            borderColor: '#FF6B6B',  // Use brand coral
-            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+            borderColor: 'var(--color-primary)',
+            backgroundColor: 'var(--color-primary-surface)',
             fill: true,
             tension: 0.4
         }]
@@ -216,8 +239,8 @@ color: var(--color-primary);
 font-family: var(--typography-font-heading);
 
 /* WRONG - hardcoded */
-background: #0D0D0D;
-color: #FF6B6B;
+background: #10141a;
+color: #0075be;
 font-family: 'Space Grotesk';
 ```
 
@@ -237,8 +260,10 @@ assets/designs/slides/claudekit-pitch-251223.html
 ## Best Practices
 
 1. Never use raw hex in components - always reference tokens
-2. Semantic layer enables theme switching (light/dark)
-3. Component tokens enable per-component customization
-4. Use HSL format for opacity control
-5. Document every token's purpose
-6. **Slides must import design-tokens.css and use var() exclusively**
+2. Never use border-radius - all Andritz components use 0px corners
+3. Use tonal layering instead of borders for visual separation
+4. Semantic layer enables light/dark theme switching via surface hierarchy
+5. Component tokens enable per-component customization
+6. Use HSL format for opacity control
+7. Document every token's purpose
+8. **Slides must import design-tokens.css and use var() exclusively**
