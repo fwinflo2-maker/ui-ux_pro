@@ -1,5 +1,5 @@
 import { mkdir, rm, access, cp, mkdtemp, readdir } from 'node:fs/promises';
-import { join, basename } from 'node:path';
+import { join, basename, resolve, sep } from 'node:path';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
@@ -16,6 +16,19 @@ export async function extractZip(zipPath: string, destDir: string): Promise<void
     if (isWindows) {
       await execAsync(`powershell -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${destDir}' -Force"`);
     } else {
+      // Guard against zip slip: validate no entry path escapes destDir before extracting.
+      // A malicious ZIP entry like ../../.ssh/authorized_keys would write outside destDir.
+      const { stdout: listing } = await execAsync(`unzip -l "${zipPath}"`);
+      const resolvedDest = path.resolve(destDir);
+      for (const line of listing.split('\n')) {
+        const parts = line.trim().split(/\s+/);
+        const entryPath = parts[parts.length - 1];
+        if (!entryPath || entryPath === 'Name' || entryPath.startsWith('---')) continue;
+        const resolved = path.resolve(destDir, entryPath);
+        if (!resolved.startsWith(resolvedDest + path.sep) && resolved !== resolvedDest) {
+          throw new Error(`Zip slip detected: entry "${entryPath}" would escape destination directory`);
+        }
+      }
       await execAsync(`unzip -o "${zipPath}" -d "${destDir}"`);
     }
   } catch (error) {

@@ -83,7 +83,7 @@ class ShadcnInstaller:
         if not self.check_shadcn_config():
             return (
                 False,
-                "shadcn not initialized. Run 'npx shadcn@latest init' first",
+                "shadcn not initialized. Run 'npx shadcn@4.2.0 init' first",
             )
 
         # Check which components already exist
@@ -98,7 +98,7 @@ class ShadcnInstaller:
             )
 
         # Build command
-        cmd = ["npx", "shadcn@latest", "add"] + components
+        cmd = ["npx", "shadcn@4.2.0", "add"] + components  # pinned — do not use @latest (supply chain risk)
 
         if overwrite:
             cmd.append("--overwrite")
@@ -141,10 +141,10 @@ class ShadcnInstaller:
         if not self.check_shadcn_config():
             return (
                 False,
-                "shadcn not initialized. Run 'npx shadcn@latest init' first",
+                "shadcn not initialized. Run 'npx shadcn@4.2.0 init' first",
             )
 
-        cmd = ["npx", "shadcn@latest", "add", "--all"]
+        cmd = ["npx", "shadcn@4.2.0", "add", "--all"]  # pinned — do not use @latest
 
         if overwrite:
             cmd.append("--overwrite")

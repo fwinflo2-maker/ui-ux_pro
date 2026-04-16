@@ -250,7 +250,7 @@ function main() {
   const generateScript = path.resolve(process.cwd(), GENERATE_TOKENS_SCRIPT);
   if (fs.existsSync(generateScript)) {
     try {
-      execSync(`node ${generateScript} --config ${DESIGN_TOKENS_JSON} -o ${DESIGN_TOKENS_CSS}`, {
+      execSync(`node "${generateScript}" --config "${DESIGN_TOKENS_JSON}" -o "${DESIGN_TOKENS_CSS}"`, {
         cwd: process.cwd(),
         stdio: 'inherit'
       });
