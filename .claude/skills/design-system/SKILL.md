@@ -60,12 +60,18 @@ Component (industrial component tokens)
 
 **Generate tokens:**
 ```bash
-node scripts/generate-tokens.cjs --config tokens.json -o tokens.css
+node scripts/generate-tokens.cjs --config templates/design-tokens-starter.json -o assets/design-tokens.css
 ```
 
 **Validate usage:**
 ```bash
 node scripts/validate-tokens.cjs --dir src/
+```
+
+**Use in slides/HTML:**
+```html
+<link rel="stylesheet" href="assets/design-tokens.css">
+<link rel="stylesheet" href="assets/css/slide-animations.css">
 ```
 
 ## References

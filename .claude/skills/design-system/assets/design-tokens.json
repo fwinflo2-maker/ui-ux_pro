@@ -1,0 +1,255 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "andritz-precision": {
+    "$description": "Andritz Precision Industrial Design System — The Monolithic Engine",
+
+    "primitive": {
+      "$description": "Raw design values — foundation layer",
+
+      "color": {
+        "andritz-blue": {
+          "900": { "$value": "#001c38", "$type": "color" },
+          "800": { "$value": "#003258", "$type": "color" },
+          "700": { "$value": "#004a77", "$type": "color" },
+          "600": { "$value": "#005c97", "$type": "color" },
+          "500": { "$value": "#0075be", "$type": "color" },
+          "400": { "$value": "#4d9fd4", "$type": "color" },
+          "300": { "$value": "#9bcaff", "$type": "color" },
+          "200": { "$value": "#c6dfff", "$type": "color" },
+          "100": { "$value": "#e0efff", "$type": "color" },
+          "50":  { "$value": "#f0f7ff", "$type": "color" }
+        },
+        "surface-light": {
+          "lowest":  { "$value": "#ffffff", "$type": "color" },
+          "low":     { "$value": "#f8fafb", "$type": "color" },
+          "base":    { "$value": "#f2f4f5", "$type": "color" },
+          "mid":     { "$value": "#eceeef", "$type": "color" },
+          "high":    { "$value": "#e6e8e9", "$type": "color" },
+          "highest": { "$value": "#e1e3e4", "$type": "color" }
+        },
+        "surface-dark": {
+          "lowest":  { "$value": "#0a0e14", "$type": "color" },
+          "low":     { "$value": "#10141a", "$type": "color" },
+          "base":    { "$value": "#181c22", "$type": "color" },
+          "mid":     { "$value": "#1c2026", "$type": "color" },
+          "high":    { "$value": "#262a31", "$type": "color" },
+          "highest": { "$value": "#31353c", "$type": "color" }
+        },
+        "neutral": {
+          "950": { "$value": "#001c38", "$type": "color", "$description": "Deepest black — replaces pure #000000" },
+          "900": { "$value": "#191c1d", "$type": "color" },
+          "700": { "$value": "#404751", "$type": "color" },
+          "600": { "$value": "#49607f", "$type": "color" },
+          "500": { "$value": "#4b5a69", "$type": "color" },
+          "300": { "$value": "#c0c7d2", "$type": "color" },
+          "200": { "$value": "#dfe2eb", "$type": "color" },
+          "100": { "$value": "#eef1f6", "$type": "color" },
+          "50":  { "$value": "#f5f7fa", "$type": "color" }
+        },
+        "error": {
+          "600": { "$value": "#ba1a1a", "$type": "color" },
+          "400": { "$value": "#ff6b6b", "$type": "color" },
+          "300": { "$value": "#ffb4ab", "$type": "color" },
+          "100": { "$value": "#ffdad6", "$type": "color" }
+        },
+        "tertiary": {
+          "500": { "$value": "#ffb781", "$type": "color", "$description": "Warning/caution tape" },
+          "400": { "$value": "#ffc9a0", "$type": "color" },
+          "200": { "$value": "#ffe4cc", "$type": "color" }
+        },
+        "success": {
+          "600": { "$value": "#1a8a4a", "$type": "color" },
+          "400": { "$value": "#4ade80", "$type": "color" },
+          "100": { "$value": "#dcfce7", "$type": "color" }
+        }
+      },
+
+      "spacing": {
+        "0":   { "$value": "0",       "$type": "dimension" },
+        "1":   { "$value": "0.25rem", "$type": "dimension" },
+        "2":   { "$value": "0.5rem",  "$type": "dimension" },
+        "3":   { "$value": "0.75rem", "$type": "dimension" },
+        "4":   { "$value": "1rem",    "$type": "dimension" },
+        "5":   { "$value": "1.25rem", "$type": "dimension" },
+        "6":   { "$value": "1.5rem",  "$type": "dimension" },
+        "8":   { "$value": "2rem",    "$type": "dimension", "$description": "Zone separation (32px)" },
+        "10":  { "$value": "2.5rem",  "$type": "dimension" },
+        "12":  { "$value": "3rem",    "$type": "dimension", "$description": "Section gap (48px)" },
+        "16":  { "$value": "4rem",    "$type": "dimension" },
+        "20":  { "$value": "5rem",    "$type": "dimension" },
+        "24":  { "$value": "6rem",    "$type": "dimension" },
+        "32":  { "$value": "8rem",    "$type": "dimension", "$description": "Hero spacing (128px)" }
+      },
+
+      "typography": {
+        "font-family": {
+          "primary":  { "$value": "'Inter', system-ui, -apple-system, sans-serif", "$type": "fontFamily" },
+          "premium":  { "$value": "'Gilroy', 'Inter', system-ui, sans-serif", "$type": "fontFamily" }
+        },
+        "font-size": {
+          "display-lg":   { "$value": "3.5rem",    "$type": "dimension" },
+          "display-md":   { "$value": "2.75rem",   "$type": "dimension" },
+          "display-sm":   { "$value": "2.25rem",   "$type": "dimension" },
+          "headline-lg":  { "$value": "2rem",      "$type": "dimension" },
+          "headline-md":  { "$value": "1.75rem",   "$type": "dimension" },
+          "headline-sm":  { "$value": "1.5rem",    "$type": "dimension" },
+          "title-lg":     { "$value": "1.375rem",  "$type": "dimension" },
+          "title-md":     { "$value": "1.125rem",  "$type": "dimension" },
+          "title-sm":     { "$value": "1rem",      "$type": "dimension" },
+          "body-lg":      { "$value": "1rem",      "$type": "dimension" },
+          "body-md":      { "$value": "0.875rem",  "$type": "dimension" },
+          "body-sm":      { "$value": "0.75rem",   "$type": "dimension" },
+          "label-md":     { "$value": "0.75rem",   "$type": "dimension" },
+          "label-sm":     { "$value": "0.6875rem", "$type": "dimension" }
+        },
+        "font-weight": {
+          "regular":  { "$value": 400, "$type": "fontWeight" },
+          "medium":   { "$value": 500, "$type": "fontWeight" },
+          "semibold": { "$value": 600, "$type": "fontWeight" },
+          "bold":     { "$value": 700, "$type": "fontWeight" }
+        },
+        "letter-spacing": {
+          "tight":  { "$value": "-0.02em", "$type": "dimension", "$description": "Headlines — technical manual" },
+          "normal": { "$value": "0",       "$type": "dimension" },
+          "wide":   { "$value": "0.05em",  "$type": "dimension", "$description": "Labels — machined look" },
+          "wider":  { "$value": "0.1em",   "$type": "dimension", "$description": "Display pairs — engineering drawing" }
+        }
+      },
+
+      "radius": {
+        "none": { "$value": "0px", "$type": "dimension", "$description": "DEFAULT — Industrial Precision" },
+        "full": { "$value": "9999px", "$type": "dimension", "$description": "Only for avatars/status indicators" }
+      },
+
+      "shadow": {
+        "ambient-light": { "$value": "0px 12px 32px 0px rgba(0, 28, 56, 0.06)", "$type": "shadow" },
+        "ambient-dark":  { "$value": "0px 12px 32px 0px rgba(0, 28, 56, 0.4)",  "$type": "shadow" },
+        "glow-primary":  { "$value": "0px 0px 8px #9bcaff", "$type": "shadow", "$description": "Dark theme pulse line" }
+      },
+
+      "duration": {
+        "fast":   { "$value": "150ms", "$type": "duration" },
+        "normal": { "$value": "200ms", "$type": "duration" },
+        "slow":   { "$value": "300ms", "$type": "duration" }
+      }
+    },
+
+    "semantic": {
+      "$description": "Purpose-based aliases — light theme (default)",
+
+      "surface": {
+        "default":           { "$value": "{primitive.color.surface-light.low}",     "$type": "color" },
+        "container":         { "$value": "{primitive.color.surface-light.mid}",     "$type": "color" },
+        "container-low":     { "$value": "{primitive.color.surface-light.base}",    "$type": "color" },
+        "container-high":    { "$value": "{primitive.color.surface-light.high}",    "$type": "color" },
+        "container-highest": { "$value": "{primitive.color.surface-light.highest}", "$type": "color" },
+        "container-lowest":  { "$value": "{primitive.color.surface-light.lowest}",  "$type": "color" }
+      },
+      "on-surface": {
+        "default": { "$value": "{primitive.color.neutral.900}", "$type": "color" },
+        "variant":  { "$value": "{primitive.color.neutral.700}", "$type": "color" }
+      },
+      "primary": {
+        "default":    { "$value": "{primitive.color.andritz-blue.500}", "$type": "color" },
+        "text":       { "$value": "{primitive.color.andritz-blue.600}", "$type": "color" },
+        "container":  { "$value": "{primitive.color.andritz-blue.500}", "$type": "color" },
+        "on-primary": { "$value": "#ffffff", "$type": "color" },
+        "fixed-dim":  { "$value": "{primitive.color.andritz-blue.300}", "$type": "color" }
+      },
+      "error": {
+        "default":   { "$value": "{primitive.color.error.600}", "$type": "color" },
+        "container": { "$value": "{primitive.color.error.100}", "$type": "color" },
+        "on-error":  { "$value": "#ffffff", "$type": "color" }
+      },
+      "outline-variant":      { "$value": "{primitive.color.neutral.300}", "$type": "color" },
+      "ghost-border-opacity": { "$value": "0.15", "$type": "number" },
+      "border":               { "$value": "transparent", "$type": "color", "$description": "No-Line Rule" }
+    },
+
+    "semantic-dark": {
+      "$description": "Purpose-based aliases — dark theme overrides",
+
+      "surface": {
+        "default":           { "$value": "{primitive.color.surface-dark.low}",     "$type": "color" },
+        "container":         { "$value": "{primitive.color.surface-dark.mid}",     "$type": "color" },
+        "container-low":     { "$value": "{primitive.color.surface-dark.base}",    "$type": "color" },
+        "container-high":    { "$value": "{primitive.color.surface-dark.high}",    "$type": "color" },
+        "container-highest": { "$value": "{primitive.color.surface-dark.highest}", "$type": "color" },
+        "container-lowest":  { "$value": "{primitive.color.surface-dark.lowest}",  "$type": "color" }
+      },
+      "on-surface": {
+        "default": { "$value": "{primitive.color.neutral.200}", "$type": "color" },
+        "variant":  { "$value": "{primitive.color.neutral.300}", "$type": "color" }
+      },
+      "primary": {
+        "default":    { "$value": "{primitive.color.andritz-blue.500}", "$type": "color" },
+        "text":       { "$value": "{primitive.color.andritz-blue.300}", "$type": "color" },
+        "container":  { "$value": "{primitive.color.andritz-blue.500}", "$type": "color" },
+        "on-primary": { "$value": "#ffffff", "$type": "color" },
+        "fixed-dim":  { "$value": "{primitive.color.andritz-blue.300}", "$type": "color" }
+      },
+      "tertiary":             { "$value": "{primitive.color.tertiary.500}", "$type": "color", "$description": "Caution tape — high contrast on navy" },
+      "error": {
+        "default":   { "$value": "{primitive.color.error.300}", "$type": "color" },
+        "container": { "$value": "#93000a", "$type": "color" },
+        "on-error":  { "$value": "{primitive.color.error.100}", "$type": "color" }
+      },
+      "outline-variant":      { "$value": "{primitive.color.neutral.700}", "$type": "color" },
+      "ghost-border-opacity": { "$value": "0.20", "$type": "number" }
+    },
+
+    "component": {
+      "$description": "Component-specific tokens",
+
+      "button": {
+        "primary-bg-gradient": { "$value": "linear-gradient(135deg, {semantic.primary.text}, {semantic.primary.default})", "$type": "gradient" },
+        "primary-fg":          { "$value": "{semantic.primary.on-primary}", "$type": "color" },
+        "secondary-bg":        { "$value": "{semantic.surface.container-high}", "$type": "color" },
+        "secondary-fg":        { "$value": "{semantic.primary.text}", "$type": "color" },
+        "radius":              { "$value": "{primitive.radius.none}", "$type": "dimension" },
+        "padding-x":           { "$value": "{primitive.spacing.6}", "$type": "dimension" },
+        "padding-y":           { "$value": "{primitive.spacing.2}", "$type": "dimension" },
+        "active-scale":        { "$value": "0.98", "$type": "number" },
+        "text-transform":      { "$value": "uppercase", "$type": "string" },
+        "letter-spacing":      { "$value": "{primitive.typography.letter-spacing.wide}", "$type": "dimension" }
+      },
+      "input": {
+        "bg":                 { "$value": "{semantic.surface.container-highest}", "$type": "color" },
+        "fg":                 { "$value": "{semantic.on-surface.default}", "$type": "color" },
+        "border":             { "$value": "none", "$type": "string", "$description": "No-Line Rule" },
+        "focus-border-bottom": { "$value": "2px solid {semantic.primary.default}", "$type": "string" },
+        "error-bg":           { "$value": "{semantic.error.container}", "$type": "color" },
+        "radius":             { "$value": "{primitive.radius.none}", "$type": "dimension" }
+      },
+      "card": {
+        "bg":              { "$value": "{semantic.surface.container-lowest}", "$type": "color" },
+        "fg":              { "$value": "{semantic.on-surface.default}", "$type": "color" },
+        "border":          { "$value": "none", "$type": "string", "$description": "No-Line Rule" },
+        "shadow":          { "$value": "none", "$type": "shadow" },
+        "shadow-elevated": { "$value": "{primitive.shadow.ambient-light}", "$type": "shadow" },
+        "radius":          { "$value": "{primitive.radius.none}", "$type": "dimension" },
+        "padding":         { "$value": "{primitive.spacing.6}", "$type": "dimension" },
+        "zone-gap":        { "$value": "{primitive.spacing.8}", "$type": "dimension" }
+      },
+      "dialog": {
+        "overlay-bg":      { "$value": "rgba(0, 28, 56, 0.5)", "$type": "color" },
+        "bg":              { "$value": "{semantic.surface.container-lowest}", "$type": "color" },
+        "backdrop-blur":   { "$value": "20px", "$type": "dimension" },
+        "surface-opacity": { "$value": "0.85", "$type": "number" },
+        "radius":          { "$value": "{primitive.radius.none}", "$type": "dimension" },
+        "shadow":          { "$value": "{primitive.shadow.ambient-light}", "$type": "shadow" }
+      },
+      "badge": {
+        "radius":          { "$value": "{primitive.radius.none}", "$type": "dimension" },
+        "text-transform":  { "$value": "uppercase", "$type": "string" },
+        "letter-spacing":  { "$value": "{primitive.typography.letter-spacing.wide}", "$type": "dimension" }
+      },
+      "table": {
+        "border":          { "$value": "none", "$type": "string", "$description": "No divider lines — use whitespace or tonal shift" },
+        "header-transform": { "$value": "uppercase", "$type": "string" },
+        "header-tracking": { "$value": "{primitive.typography.letter-spacing.wide}", "$type": "dimension" },
+        "row-separator":   { "$value": "{primitive.spacing.8}", "$type": "dimension", "$description": "32px whitespace OR tonal shift" }
+      }
+    }
+  }
+}
