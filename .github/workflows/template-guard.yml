@@ -1,0 +1,27 @@
+name: Template Guard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  windsurf-template-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync CLI assets from source
+        run: node cli/scripts/sync-assets.mjs
+
+      - name: Fail on unsynced Windsurf template
+        run: git diff --exit-code -- cli/assets/templates/platforms/windsurf.json
+
+      - name: Validate Windsurf template frontmatter
+        run: node cli/scripts/validate-windsurf-template.mjs

@@ -486,10 +486,11 @@ cli/                         # CLI installer (generates files from templates)
 # - scripts/*.py            → Search engine & design system
 # - templates/              → Platform-specific templates
 
-# 4. Sync to CLI and test locally
-cp -r src/ui-ux-pro-max/data/* cli/assets/data/
-cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
-cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+# 4. Sync Windsurf template and validate header guard
+cd cli
+npm run sync:assets
+npm run validate:windsurf-template
+cd ..
 
 # 5. Build and test CLI
 cd cli && bun run build
