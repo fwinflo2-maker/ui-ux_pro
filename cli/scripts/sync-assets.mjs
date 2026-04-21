@@ -9,10 +9,7 @@ const cliRoot = join(__dirname, '..');
 const repoRoot = join(cliRoot, '..');
 
 const SYNC_TARGETS = [
-  [
-    'src/ui-ux-pro-max/templates/platforms/windsurf.json',
-    'cli/assets/templates/platforms/windsurf.json',
-  ],
+  ['src/ui-ux-pro-max/templates/platforms', 'cli/assets/templates/platforms'],
 ];
 
 for (const [fromRel, toRel] of SYNC_TARGETS) {
@@ -20,7 +17,7 @@ for (const [fromRel, toRel] of SYNC_TARGETS) {
   const to = join(repoRoot, toRel);
 
   await mkdir(dirname(to), { recursive: true });
-  await cp(from, to, { force: true });
+  await cp(from, to, { recursive: true, force: true });
 }
 
-console.log('Synced Windsurf template from src to cli/assets');
+console.log('Synced platform templates from src to cli/assets');

@@ -486,10 +486,10 @@ cli/                         # CLI installer (generates files from templates)
 # - scripts/*.py            → Search engine & design system
 # - templates/              → Platform-specific templates
 
-# 4. Sync Windsurf template and validate header guard
+# 4. Sync and validate platform templates
 cd cli
 npm run sync:assets
-npm run validate:windsurf-template
+npm run validate:platform-templates
 cd ..
 
 # 5. Build and test CLI

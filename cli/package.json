@@ -14,8 +14,9 @@
     "build": "bun build src/index.ts --outdir dist --target node",
     "dev": "bun run src/index.ts",
     "sync:assets": "node scripts/sync-assets.mjs",
-    "validate:windsurf-template": "node scripts/validate-windsurf-template.mjs",
-    "prepublishOnly": "npm run sync:assets && npm run validate:windsurf-template && bun run build"
+    "validate:platform-templates": "node scripts/validate-platform-templates.mjs",
+    "validate:windsurf-template": "npm run validate:platform-templates",
+    "prepublishOnly": "npm run sync:assets && npm run validate:platform-templates && bun run build"
   },
   "keywords": [
     "ui",
