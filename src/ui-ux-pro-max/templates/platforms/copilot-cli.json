@@ -1,6 +1,6 @@
 {
   "platform": "copilot-cli",
-  "displayName": "GitHub Copilot (Coding Agent)",
+  "displayName": "GitHub Copilot CLI",
   "installType": "full",
   "folderStructure": {
     "root": ".github",

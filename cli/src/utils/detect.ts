@@ -92,7 +92,7 @@ export function getAITypeDescription(aiType: AIType): string {
     case 'copilot':
       return 'GitHub Copilot (.github/prompts/)';
     case 'copilot-cli':
-      return 'GitHub Copilot Coding Agent (.github/skills/)';
+      return 'GitHub Copilot CLI (.github/skills/)';
     case 'kiro':
       return 'Kiro (.kiro/steering/)';
     case 'codex':
