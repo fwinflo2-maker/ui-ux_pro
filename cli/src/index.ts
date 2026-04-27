@@ -29,6 +29,7 @@ program
   .option('-f, --force', 'Overwrite existing files')
   .option('-o, --offline', 'Skip GitHub download, use bundled assets only')
   .option('-g, --global', 'Install globally to home directory (~/) instead of current project')
+  .option('--dry-run', 'Preview install actions without writing files')
   .action(async (options) => {
     if (options.ai && !AI_TYPES.includes(options.ai)) {
       console.error(`Invalid AI type: ${options.ai}`);
@@ -40,6 +41,7 @@ program
       force: options.force,
       offline: options.offline,
       global: options.global,
+      dryRun: options.dryRun,
     });
   });
 

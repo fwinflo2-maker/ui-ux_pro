@@ -306,6 +306,7 @@ uipro init --ai cursor --global   # Install to ~/.cursor/skills/
 uipro versions              # List available versions
 uipro update                # Update to latest version
 uipro init --offline        # Skip GitHub download, use bundled assets
+uipro init --dry-run        # Preview install actions without writing files
 uipro uninstall             # Remove skill (auto-detect platform)
 uipro uninstall --ai claude # Remove specific platform
 uipro uninstall --global    # Remove from global install
@@ -494,6 +495,7 @@ cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
 # 5. Build and test CLI
 cd cli && bun run build
 node dist/index.js init --ai claude --offline  # Test in a temp folder
+node dist/index.js init --ai claude --dry-run  # Preview install actions (no writes)
 
 # 6. Create PR (never push directly to main)
 git checkout -b feat/your-feature

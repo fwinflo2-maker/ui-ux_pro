@@ -235,6 +235,63 @@ export async function generateAllPlatformFiles(targetDir: string, isGlobal = fal
   return Array.from(allFolders);
 }
 
+function getSkillPaths(targetDir: string, config: PlatformConfig, isGlobal = false): {
+  effectiveDir: string;
+  skillDir: string;
+  skillFilePath: string;
+} {
+  const effectiveDir = isGlobal ? homedir() : targetDir;
+  const skillDir = join(
+    effectiveDir,
+    config.folderStructure.root,
+    config.folderStructure.skillPath
+  );
+  const skillFilePath = join(skillDir, config.folderStructure.filename);
+
+  return { effectiveDir, skillDir, skillFilePath };
+}
+
+/**
+ * Build a dry-run action list for one platform install
+ */
+export async function planPlatformInstallActions(
+  targetDir: string,
+  aiType: string,
+  isGlobal = false
+): Promise<string[]> {
+  const config = await loadPlatformConfig(aiType);
+  const { skillDir, skillFilePath } = getSkillPaths(targetDir, config, isGlobal);
+  const actions: string[] = [];
+
+  actions.push(`mkdir -p ${skillDir}`);
+  actions.push(`write ${skillFilePath}`);
+  actions.push(`copy ${join(ASSETS_DIR, 'data')} -> ${join(skillDir, 'data')}`);
+  actions.push(`copy ${join(ASSETS_DIR, 'scripts')} -> ${join(skillDir, 'scripts')}`);
+
+  return actions;
+}
+
+/**
+ * Build a dry-run action list for all platform installs
+ */
+export async function planAllPlatformInstallActions(
+  targetDir: string,
+  isGlobal = false
+): Promise<string[]> {
+  const actions: string[] = [];
+
+  for (const aiType of Object.keys(AI_TO_PLATFORM)) {
+    try {
+      const platformActions = await planPlatformInstallActions(targetDir, aiType, isGlobal);
+      actions.push(...platformActions);
+    } catch {
+      // Skip if planning fails for a platform
+    }
+  }
+
+  return actions;
+}
+
 /**
  * Get list of supported AI types
  */
