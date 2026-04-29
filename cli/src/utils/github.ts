@@ -31,6 +31,11 @@ function checkRateLimit(response: Response): void {
   }
 }
 
+function getAuthHeaders(): Record<string, string> {
+  const token = process.env['GITHUB_TOKEN'];
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
+}
+
 export async function fetchReleases(): Promise<Release[]> {
   const url = `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/releases`;
 
@@ -38,6 +43,7 @@ export async function fetchReleases(): Promise<Release[]> {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'uipro-cli',
+      ...getAuthHeaders(),
     },
   });
 
@@ -57,6 +63,7 @@ export async function getLatestRelease(): Promise<Release> {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'uipro-cli',
+      ...getAuthHeaders(),
     },
   });
 
@@ -74,6 +81,7 @@ export async function downloadRelease(url: string, dest: string): Promise<void> 
     headers: {
       'User-Agent': 'uipro-cli',
       'Accept': 'application/octet-stream',
+      ...getAuthHeaders(),
     },
   });
 
