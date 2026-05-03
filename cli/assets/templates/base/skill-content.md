@@ -159,6 +159,17 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack react-native
 | `prompt` | AI prompts, CSS keywords | (style name) |
 | `antipattern` | What to avoid: generic AI aesthetics, overused patterns | purple gradient, default shadcn, Inter everywhere, stock photo, nested card |
 | `philosophy` | Design directions for advisor mode (vague briefs) | swiss editorial, brutalist, bold maximalism, kenya hara, retro futuristic |
+| `motion` | Motion craft (easing, duration, springs, gestures, perf, a11y, polish) — Emil Kowalski | ease-out, scale on press, spring config, prefers-reduced-motion, stagger, transform-origin popover |
+
+### Motion Review (Emil Kowalski)
+
+Before shipping any animation or interaction, run:
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "<concern>" --domain motion -n 5
+```
+
+Examples: `"button press feedback"`, `"drawer drag dismiss"`, `"tooltip delay"`, `"prefers reduced motion"`, `"framer motion performance"`. The 37 rules cover the full Animation Decision Framework, custom easing curves, spring physics, gesture handling, performance traps, and the polish patterns from Sonner/Vaul. See `data/motion-principles-CREDITS.md` for source attribution.
 
 ### Advisor Mode (vague briefs)
 

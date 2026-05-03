@@ -79,6 +79,11 @@ CSV_CONFIG = {
         "file": "design-philosophies.csv",
         "search_cols": ["Philosophy", "School", "Pitch", "Flagship Examples", "Signature Moves", "Best For", "Pair With Style"],
         "output_cols": ["Philosophy", "School", "Era", "Pitch", "Flagship Examples", "Signature Moves", "Best For", "Avoid For", "Pair With Style", "Pair With Typography", "Pair With Palette", "Risk Level", "AI Prompt Seed"]
+    },
+    "motion": {
+        "file": "motion-principles.csv",
+        "search_cols": ["Category", "Principle", "Keywords", "Why It Matters", "Do", "Don't"],
+        "output_cols": ["Category", "Principle", "Keywords", "Why It Matters", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Source"]
     }
 }
 
@@ -222,7 +227,8 @@ def detect_domain(query):
         "react": ["react", "next.js", "nextjs", "suspense", "memo", "usecallback", "useeffect", "rerender", "bundle", "waterfall", "barrel", "dynamic import", "rsc", "server component"],
         "web": ["aria", "focus", "outline", "semantic", "virtualize", "autocomplete", "form", "input type", "preconnect"],
         "antipattern": ["anti-pattern", "antipattern", "avoid", "don't use", "do not use", "generic", "cliche", "overused", "ai aesthetic", "purple gradient", "stock photo", "nested card", "default shadcn", "default tailwind", "inter everywhere", "geist everywhere", "side stripe", "thick border"],
-        "philosophy": ["philosophy", "direction", "advisor", "swiss", "brutalist", "editorial", "minimalism", "maximalism", "hara", "muji", "retro futuristic", "y2k", "organic", "anti-design", "aurora", "glass", "vibe", "school", "movement"]
+        "philosophy": ["philosophy", "direction", "advisor", "swiss", "brutalist", "editorial", "minimalism", "maximalism", "hara", "muji", "retro futuristic", "y2k", "organic", "anti-design", "aurora", "glass", "vibe", "school", "movement"],
+        "motion": ["motion", "animation", "ease", "easing", "cubic-bezier", "spring", "transition", "keyframe", "transform", "translate", "scale on press", "transform-origin", "stagger", "drag", "gesture", "swipe", "framer motion", "waapi", "prefers-reduced-motion", "duration", "raycast", "sonner", "vaul", "drawer", "tooltip delay", "popover origin", "clip-path", "blur transition", "hardware accelerated", "starting-style"]
     }
 
     scores = {domain: sum(1 for kw in keywords if re.search(r'\b' + re.escape(kw) + r'\b', query_lower)) for domain, keywords in domain_keywords.items()}
