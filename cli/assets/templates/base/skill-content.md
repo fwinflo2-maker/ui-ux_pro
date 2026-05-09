@@ -250,6 +250,45 @@ python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system 
 
 ---
 
+## Error Handling
+
+When the search script fails, work through these checks in order. Most errors come from path or environment issues, not the skill content itself.
+
+### Path resolution
+
+The example commands use a path relative to the install root. The actual location depends on how the skill was installed:
+
+| Install method | Run search from |
+|----------------|-----------------|
+| Project-local (Claude Code) | `python3 .claude/skills/ui-ux-pro-max/scripts/search.py ...` |
+| Global (Claude Code) | `python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py ...` |
+| Other platforms | Replace `.claude` with the platform's config dir (e.g. `.cursor`, `.windsurf`) |
+
+If a command fails with `No such file or directory`, run `pwd` first to confirm the working directory, then prepend the correct config dir to the script path.
+
+### Common errors
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `python3: command not found` | Python 3 not installed | Run the platform install command from the Prerequisites section |
+| `No module named ...` | Missing standard library on minimal Python builds | Install full Python 3.x (the script uses no external dependencies) |
+| `FileNotFoundError: ...data/products.csv` | Running from wrong directory or assets not synced | Run from project root; if developing locally, run the sync step from CLAUDE.md |
+| Empty results for a clear query | Query terms too narrow | Re-run with broader terms; try `--domain` instead of `--design-system` |
+| `--design-system` returns wrong industry | Reasoning rules matched on a generic keyword | Add an industry qualifier (e.g. "fintech banking" not just "fintech") |
+| `--persist` overwrites existing design | Default behaviour writes `design-system/MASTER.md` in place | Move the existing file before re-running, or use a different `-p` project name |
+
+### When the design system result feels wrong
+
+- Re-run with different keyword combinations (`product + industry + tone + density`) before assuming the rules are off
+- Check `data/ui-reasoning.csv` to see which rule fired; if no rule matches, the engine falls back to BM25 ranking
+- For brand-new product types not in `products.csv`, expect lower-quality matches; pick the closest analogue and override manually
+
+### Reporting issues
+
+If a fix above doesn't resolve the problem, capture: the full command, the working directory, Python version (`python3 --version`), and the install method. Open an issue with this context at the project's GitHub repository.
+
+---
+
 ## Common Rules for Professional UI
 
 These are frequently overlooked issues that make UI look unprofessional:
@@ -257,9 +296,14 @@ Scope notice: The rules below are for App UI (iOS/Android/React Native/Flutter),
 
 ### Icons & Visual Elements
 
+- 默认图标库使用 **Phosphor (`@phosphor-icons/react`)**。`src/ui-ux-pro-max/data/icons.csv` 中列出的只是常用推荐图标，不是完整集合。
+- 当推荐表中找不到合适的图标时：
+  - **优先继续从 Phosphor 的完整图标集中选择任何语义更贴切的图标**；
+  - 如果 Phosphor 也没有理想选项，可以使用 **Heroicons (`@heroicons/react`)** 作为备选，注意保持风格一致（线性/填充、笔画粗细、圆角风格）。
+
 | Rule | Standard | Avoid | Why It Matters |
 |------|----------|--------|----------------|
-| **No Emoji as Structural Icons** | Use vector-based icons (e.g., Lucide, react-native-vector-icons, @expo/vector-icons). | Using emojis (🎨 🚀 ⚙️) for navigation, settings, or system controls. | Emojis are font-dependent, inconsistent across platforms, and cannot be controlled via design tokens. |
+| **No Emoji as Structural Icons** | Use vector-based icons (e.g., Phosphor `@phosphor-icons/react`, Heroicons `@heroicons/react`, react-native-vector-icons, @expo/vector-icons). | Using emojis (🎨 🚀 ⚙️) for navigation, settings, or system controls. | Emojis are font-dependent, inconsistent across platforms, and cannot be controlled via design tokens. |
 | **Vector-Only Assets** | Use SVG or platform vector icons that scale cleanly and support theming. | Raster PNG icons that blur or pixelate. | Ensures scalability, crisp rendering, and dark/light mode adaptability. |
 | **Stable Interaction States** | Use color, opacity, or elevation transitions for press states without changing layout bounds. | Layout-shifting transforms that move surrounding content or trigger visual jitter. | Prevents unstable interactions and preserves smooth motion/perceived quality on mobile. |
 | **Correct Brand Logos** | Use official brand assets and follow their usage guidelines (spacing, color, clear space). | Guessing logo paths, recoloring unofficially, or modifying proportions. | Prevents brand misuse and ensures legal/platform compliance. |

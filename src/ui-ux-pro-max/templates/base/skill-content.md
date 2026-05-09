@@ -250,6 +250,45 @@ python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system 
 
 ---
 
+## Error Handling
+
+When the search script fails, work through these checks in order. Most errors come from path or environment issues, not the skill content itself.
+
+### Path resolution
+
+The example commands use a path relative to the install root. The actual location depends on how the skill was installed:
+
+| Install method | Run search from |
+|----------------|-----------------|
+| Project-local (Claude Code) | `python3 .claude/skills/ui-ux-pro-max/scripts/search.py ...` |
+| Global (Claude Code) | `python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py ...` |
+| Other platforms | Replace `.claude` with the platform's config dir (e.g. `.cursor`, `.windsurf`) |
+
+If a command fails with `No such file or directory`, run `pwd` first to confirm the working directory, then prepend the correct config dir to the script path.
+
+### Common errors
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `python3: command not found` | Python 3 not installed | Run the platform install command from the Prerequisites section |
+| `No module named ...` | Missing standard library on minimal Python builds | Install full Python 3.x (the script uses no external dependencies) |
+| `FileNotFoundError: ...data/products.csv` | Running from wrong directory or assets not synced | Run from project root; if developing locally, run the sync step from CLAUDE.md |
+| Empty results for a clear query | Query terms too narrow | Re-run with broader terms; try `--domain` instead of `--design-system` |
+| `--design-system` returns wrong industry | Reasoning rules matched on a generic keyword | Add an industry qualifier (e.g. "fintech banking" not just "fintech") |
+| `--persist` overwrites existing design | Default behaviour writes `design-system/MASTER.md` in place | Move the existing file before re-running, or use a different `-p` project name |
+
+### When the design system result feels wrong
+
+- Re-run with different keyword combinations (`product + industry + tone + density`) before assuming the rules are off
+- Check `data/ui-reasoning.csv` to see which rule fired; if no rule matches, the engine falls back to BM25 ranking
+- For brand-new product types not in `products.csv`, expect lower-quality matches; pick the closest analogue and override manually
+
+### Reporting issues
+
+If a fix above doesn't resolve the problem, capture: the full command, the working directory, Python version (`python3 --version`), and the install method. Open an issue with this context at the project's GitHub repository.
+
+---
+
 ## Common Rules for Professional UI
 
 These are frequently overlooked issues that make UI look unprofessional:
